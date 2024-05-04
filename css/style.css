@@ -88,17 +88,26 @@ body {
     z-index: 999;
 }
 
-.score-display,
-.life-display {
+.score-display{
     position: absolute;
     color: white;
     font-size: 18px;
-    top: 10px;
+    top: 45px;
     left: 10px;
 }
 
-.life-display {
-    top: 40px;
+#lives {
+    display: flex;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1000; 
+}
+
+.life {
+    width: 40px; 
+    height: auto; 
+    margin-right: 10px; 
 }
 
 .fade-layer {
@@ -194,3 +203,4 @@ button {
     z-index: 9999;
     display: none;
 }
+
