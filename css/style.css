@@ -1,31 +1,30 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body{
+body {
     background-color: black;
+    margin: 0;
+    padding: 0;
 }
 
 .jacquard-24-regular {
     font-family: "Jacquard 24", system-ui;
     font-weight: 400;
     font-style: normal;
-  }
-  
-  
+}
 
-.game-board{
-    width: 100%;
-    height: 610px;
+.game-board {
+    width: 100vw;
+    height: 100vh;
     border: 1px solid #333;
-    margin: 0 auto;
     position: relative;
     overflow: hidden;
 }
 
-.background{
+.background {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -33,7 +32,7 @@ body{
     height: 100%;
 }
 
-.caveira{
+.caveira {
     position: absolute;
     bottom: 32px;
     width: 64px;
@@ -41,53 +40,52 @@ body{
 }
 
 @keyframes caveira-animacao {
-    from{
+    from {
         right: -80px;
     }
-    to{
+    to {
         right: 100%;
     }
-  }
+}
 
-  .alucard{
+.alucard {
     width: 150px;
     position: absolute;
     bottom: 32px;
-  }
+}
 
-  .jump{
+.jump {
     animation: jump 500ms ease-out;
-  }
-  
-  @keyframes jump {
-    0%{
+}
+
+@keyframes jump {
+    0% {
         bottom: 0;
     }
-    40%{
+    40% {
         bottom: 180px;
     }
-    50%{
+    50% {
         bottom: 180px;
     }
-    60%{
+    60% {
         bottom: 180px;
     }
-    100%{
+    100% {
         bottom: 0;
     }
-  }
+}
 
-
-  .game-over-text {
-    font-family: "Jacquard 24", system-ui ;
+.game-over-text {
+    font-family: "Jacquard 24", system-ui;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 48px;
     color: white;
-    opacity: 0; 
-    z-index: 999; 
+    opacity: 0;
+    z-index: 999;
 }
 
 .score-display,
@@ -110,10 +108,10 @@ body{
     width: 100%;
     height: 100%;
     background-color: black;
-    opacity: 0; 
-    z-index: 998; 
-    pointer-events: none; 
-    transition: opacity 1s; 
+    opacity: 0;
+    z-index: 998;
+    pointer-events: none;
+    transition: opacity 1s;
 }
 
 .restart-message {
@@ -123,8 +121,8 @@ body{
     transform: translate(-50%, -50%);
     font-size: 24px;
     color: white;
-    opacity: 0; 
-    z-index: 999; 
+    opacity: 0;
+    z-index: 999;
     transition: opacity 0.5s;
 }
 
@@ -139,13 +137,13 @@ body{
     transition: opacity 0.5s;
 }
 
-.exit-message a{
+.exit-message a {
     color: white;
     text-decoration: none;
 }
 
-.pause-text{
-    font-family: "Jacquard 24", system-ui ;
+.pause-text {
+    font-family: "Jacquard 24", system-ui;
     position: fixed;
     font-size: 48px;
     top: 75%;
@@ -171,26 +169,22 @@ body{
 }
 
 button {
-    z-index: 999999; 
+    font-family: "Jacquard 24", system-ui;
+    z-index: 999999;
     padding: 10px 20px;
-    font-size: 16px;
-    background-color: black;
+    font-size: 32px;
+    background-color: transparent;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: black 0.3s ease;
     position: absolute;
-    top: 90%; 
-    left: 5%;
-  
-  }
-  
-  button:hover {
-    background-color: black;
-  }
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 
-  #blackScreen {
+#blackScreen {
     position: fixed;
     top: 0;
     left: 0;

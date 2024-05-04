@@ -81,24 +81,5 @@ body {
   }
 }
 
-button {
-  z-index: 999999; 
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: black;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: black 0.3s ease;
-  position: absolute;
-  top: 90%; 
-  left: 5%;
-
-}
-
-button:hover {
-  background-color: black;
-}
 
   

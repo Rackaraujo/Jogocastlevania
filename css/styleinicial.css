@@ -10,7 +10,7 @@ body{
 
 .container{
     width: 100%;
-    height: 607px;
+    height: 100vh;
     margin: 0;
     position: relative;
     overflow: hidden;
@@ -20,6 +20,7 @@ body{
     position: absolute;
     bottom: 0;
     width: 100%;
+    height: 100vh;
 }
 
 
