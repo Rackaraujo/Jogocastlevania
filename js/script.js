@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const caveira = document.querySelector('.caveira');
     const background = document.querySelector('.background');
     const scoreDisplay = document.getElementById('score');
-    const lifeDisplay = document.getElementById('lives');
     const body = document.body;
 
     let gameRunning = false;
@@ -108,14 +107,28 @@ document.addEventListener("DOMContentLoaded", function() {
     const updateLives = () => {
         if (lives > 0 && canCollide) {
             lives--;
-            lifeDisplay.textContent = lives;
-            changeAlucardImage();
+    
+            const lifeImage = document.getElementById(`life${lives + 1}`);
+            lifeImage.src = "img/life3.png"; 
+    
+            if (lives === 0) {
+                endGame();
+            } else {
+                
+                lifeImage.classList.add('blink');
+                setTimeout(() => {
+                    lifeImage.classList.remove('blink');
+                }, 500);
+    
+                changeAlucardImage(); 
+            }
+    
+            canCollide = false; 
+            setTimeout(() => {
+                canCollide = true; 
+            }, 1000);
         }
-
-        if (lives === 0) {
-            endGame();
-        }
-    };
+    };   
 
     const changeAlucardImage = () => {
         alucard.classList.add('blink');
@@ -249,7 +262,13 @@ document.addEventListener("DOMContentLoaded", function() {
     const startGame = () => {
         gameRunning = true;
         loop = setInterval(gameLoop, 10);
-        fadeInAudio(); 
+        fadeInAudio();
+    
+        
+        for (let i = 1; i <= 3; i++) {
+            const lifeImage = document.getElementById(`life${i}`);
+            lifeImage.src = "img/life1.png";
+        }
     };
 
     const fadeInAudio = () => {
