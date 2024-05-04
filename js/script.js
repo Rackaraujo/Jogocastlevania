@@ -10,10 +10,9 @@ document.addEventListener("DOMContentLoaded", function() {
     let score = 0;
     let lives = 3;
     let canCollide = true;
-    let collisionTimeout;
     let paused = false;
     let loop;
-    let allowAudioButtonClicked = false;
+    let audioVolume = 0.1; 
 
     const fadeLayer = document.getElementById('fadeLayer');
     const gameOverText = document.querySelector('.game-over-text');
@@ -27,11 +26,10 @@ document.addEventListener("DOMContentLoaded", function() {
     document.body.appendChild(blackScreen);
 
     const allowAudioButton = document.createElement("button");
-    allowAudioButton.textContent = "Permitir Áudio";
+    allowAudioButton.textContent = "Pressione Enter para iniciar";
     allowAudioButton.addEventListener("click", function() {
-        startAudio();
-        allowAudioButton.style.display = "none";
-        startGame();
+        allowAudioButton.style.display = 'none';
+        startCountdown();
     });
     document.body.appendChild(allowAudioButton);
 
@@ -40,19 +38,34 @@ document.addEventListener("DOMContentLoaded", function() {
             allowAudioButton.click(); 
         }
     });
-    
 
-    setTimeout(function() {
-        blackScreen.style.display = "none";
-        allowAudioButton.style.display = "none";
-        startGame();
-    }, 5000);
+    const startCountdown = () => {
+        let countdown = 3;
+        const countdownInterval = setInterval(() => {
+            if (countdown > 1) {
+                countdownText.textContent = countdown;
+                countdown--;
+            } else if (countdown === 1) {
+                countdownText.textContent = countdown;
+                setTimeout(() => {
+                    countdownText.textContent = '';
+                    clearInterval(countdownInterval);
+                    startGame();
+                }, 1000);
+                countdown--;
+            }
+        }, 1000);
+    };
 
-    setTimeout(function() {
-        allowAudioButtonClicked = true;
-    }, 3000);
-
-
+    const countdownText = document.createElement('div');
+    countdownText.id = 'countdownText';
+    countdownText.style.position = 'absolute';
+    countdownText.style.top = '50%';
+    countdownText.style.left = '50%';
+    countdownText.style.transform = 'translate(-50%, -50%)';
+    countdownText.style.fontSize = '3em';
+    countdownText.style.color = 'white';
+    document.body.appendChild(countdownText);
 
     const jump = (event) => {
         if (event && event.keyCode === 38 && gameRunning) {
@@ -167,8 +180,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
     exitLink.addEventListener('click', (event) => {
         event.preventDefault();
-        window.location.href = "paginainicial.html";
+        fadeOutAudio(); 
+        setTimeout(() => { 
+            window.location.href = "paginainicial.html";
+        }, 2000); 
     });
+    
 
     const endGame = () => {
         gameRunning = false;
@@ -181,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     const gameLoop = () => {
-        if (!gameRunning || paused || !allowAudioButtonClicked) return;
+        if (!gameRunning || paused) return;
     
         if (checkCollision()) {
             updateLives();
@@ -191,9 +208,13 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     document.addEventListener('keydown', jump);
+
     document.addEventListener('keydown', (event) => {
         if (event.key === ' ' && !gameRunning) {
-            restartGame();
+            fadeOutAudio(); 
+            setTimeout(() => {
+                restartGame();
+            }, 2000); 
         }
     });
 
@@ -228,14 +249,29 @@ document.addEventListener("DOMContentLoaded", function() {
     const startGame = () => {
         gameRunning = true;
         loop = setInterval(gameLoop, 10);
+        fadeInAudio(); 
     };
+
+    const fadeInAudio = () => {
+        const fadeInterval = setInterval(() => {
+            if (audioVolume < 1) {
+                audioVolume += 0.05;
+                audio.volume = audioVolume;
+            } else {
+                clearInterval(fadeInterval);
+            }
+        }, 200); 
+    };
+
+    const audio = new Audio("songs/Castlevania - Alucard's Theme (320).mp3");
+    audio.loop = true;
+    let audioFadeOutInterval;
 
     const startAudio = () => {
         if (typeof window.Audio === "function") {
-            const audio = new Audio("songs/Castlevania - Alucard's Theme (320).mp3");
-            audio.loop = true;
             audio.play().then(function() {
                 console.log("Áudio iniciado em loop.");
+                audioFadeOutInterval && clearInterval(audioFadeOutInterval); 
             }).catch(function(error) {
                 console.error("Erro ao reproduzir áudio:", error);
             });
@@ -243,5 +279,26 @@ document.addEventListener("DOMContentLoaded", function() {
             console.error("Seu navegador não suporta a reprodução de áudio.");
         }
     };
-});
 
+    const fadeOutAudio = () => {
+        const fadeInterval = setInterval(() => {
+            if (audioVolume > 0) {
+                audioVolume -= 0.05; 
+                audio.volume = audioVolume;
+            } else {
+                clearInterval(fadeInterval);
+                audio.pause();
+            }
+        }, 100); 
+    };
+
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            startAudio(); 
+        }
+    });
+
+    window.addEventListener('beforeunload', () => {
+        fadeOutAudio(); 
+    });
+});
