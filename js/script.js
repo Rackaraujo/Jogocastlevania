@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let paused = false;
     let loop;
     let audioVolume = 0.1; 
+    let collisionCount = 0;
 
     const fadeLayer = document.getElementById('fadeLayer');
     const gameOverText = document.querySelector('.game-over-text');
@@ -25,7 +26,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.body.appendChild(blackScreen);
 
     const allowAudioButton = document.createElement("button");
-    allowAudioButton.textContent = "Pressione Enter para iniciar";
+    allowAudioButton.textContent = "Press Enter To Start";
     allowAudioButton.addEventListener("click", function() {
         allowAudioButton.style.display = 'none';
         startCountdown();
@@ -79,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const checkCollision = () => {
         const alucardRect = alucard.getBoundingClientRect();
         const caveiraRect = caveira.getBoundingClientRect();
-
+    
         const collision = (
             alucardRect.right > caveiraRect.left &&
             alucardRect.left < caveiraRect.right &&
@@ -87,15 +88,23 @@ document.addEventListener("DOMContentLoaded", function() {
             alucardRect.top < caveiraRect.bottom &&
             canCollide
         );
-
+    
         if (collision) {
             updateLives();
             canCollide = false;
             setTimeout(() => {
                 canCollide = true;
             }, 1000);
-        }
+    
+            collisionCount++;
+    
 
+            if (collisionCount === 3) {
+                changeAlucardImage();
+                collisionCount = 0; 
+            }
+        }
+    
         return collision;
     };
 
